@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ArticulosEditDlg" widgetVar="ArticulosEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditArticulosTitle}" closeOnEscape="true">
+
+            <h:form id="ArticulosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{articulosController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditArticulosLabel_idArticulo}" for="idArticulo" />
+                        <h:outputText id="idArticulo" value="#{articulosController.selected.idArticulo}" />
+
+                        <p:outputLabel value="#{myBundle.EditArticulosLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{articulosController.selected.descripcion}" title="#{myBundle.EditArticulosTitle_descripcion}" required="true" requiredMessage="#{myBundle.EditArticulosRequiredMessage_descripcion}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.EditArticulosLabel_precioUnitario}" for="precioUnitario" />
+                        <p:inputText id="precioUnitario" value="#{articulosController.selected.precioUnitario}" title="#{myBundle.EditArticulosTitle_precioUnitario}" required="true" requiredMessage="#{myBundle.EditArticulosRequiredMessage_precioUnitario}"/>
+
+                        <p:outputLabel value="#{myBundle.EditArticulosLabel_activo}" for="activo" />
+                        <p:selectBooleanCheckbox id="activo" value="#{articulosController.selected.activo}" required="true" requiredMessage="#{myBundle.EditArticulosRequiredMessage_activo}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{articulosController.save}" value="#{myBundle.Save}" update="display,:ArticulosListForm:datalist,:ArticulosListForm:ArticulosDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ArticulosEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('ArticulosEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

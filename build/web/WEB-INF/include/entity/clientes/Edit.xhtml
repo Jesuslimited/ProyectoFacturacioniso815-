@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ClientesEditDlg" widgetVar="ClientesEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditClientesTitle}" closeOnEscape="true">
+
+            <h:form id="ClientesEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{clientesController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditClientesLabel_idCliente}" for="idCliente" />
+                        <h:outputText id="idCliente" value="#{clientesController.selected.idCliente}" />
+
+                        <p:outputLabel value="#{myBundle.EditClientesLabel_nombreComercial}" for="nombreComercial" />
+                        <p:inputText id="nombreComercial" value="#{clientesController.selected.nombreComercial}" title="#{myBundle.EditClientesTitle_nombreComercial}" required="true" requiredMessage="#{myBundle.EditClientesRequiredMessage_nombreComercial}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientesLabel_rncCedula}" for="rncCedula" />
+                        <p:inputText id="rncCedula" value="#{clientesController.selected.rncCedula}" title="#{myBundle.EditClientesTitle_rncCedula}" required="true" requiredMessage="#{myBundle.EditClientesRequiredMessage_rncCedula}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientesLabel_cuentaContable}" for="cuentaContable" />
+                        <p:inputText id="cuentaContable" value="#{clientesController.selected.cuentaContable}" title="#{myBundle.EditClientesTitle_cuentaContable}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientesLabel_activo}" for="activo" />
+                        <p:selectBooleanCheckbox id="activo" value="#{clientesController.selected.activo}" required="true" requiredMessage="#{myBundle.EditClientesRequiredMessage_activo}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{clientesController.save}" value="#{myBundle.Save}" update="display,:ClientesListForm:datalist,:ClientesListForm:ClientesDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ClientesEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('ClientesEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

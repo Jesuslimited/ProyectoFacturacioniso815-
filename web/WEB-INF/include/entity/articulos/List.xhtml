@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ArticulosListForm">
+
+        <p:panel header="#{myBundle.ListArticulosTitle}">
+            <p:contextMenu id="ArticulosDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('ArticulosListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('ArticulosListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('ArticulosListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('ArticulosListForm:deleteButton').click();" icon="ui-icon-trash"/>
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{articulosController.items}"
+                         lazy="false"
+                         rowKey="#{item.idArticulo}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{articulosController.selected}"
+                         filteredValue="#{articulosController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{articulosController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idArticulo}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ArticulosDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ArticulosDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ArticulosListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idArticulo}" filterBy="#{item.idArticulo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListArticulosTitle_idArticulo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idArticulo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListArticulosTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.precioUnitario}" filterBy="#{item.precioUnitario}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListArticulosTitle_precioUnitario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.precioUnitario}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.activo}" filterBy="#{item.activo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListArticulosTitle_activo}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="activo" value="#{item.activo}" title="#{myBundle.EditArticulosTitle_activo}" required="true" requiredMessage="#{myBundle.EditArticulosRequiredMessage_activo}" disabled="true"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{articulosController.prepareCreate}" update=":ArticulosCreateForm" oncomplete="PF('ArticulosCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":ArticulosViewForm" oncomplete="PF('ArticulosViewDialog').show()" disabled="#{empty articulosController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":ArticulosEditForm" oncomplete="PF('ArticulosEditDialog').show()" disabled="#{empty articulosController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{articulosController.delete}" update=":growl,datalist" disabled="#{empty articulosController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

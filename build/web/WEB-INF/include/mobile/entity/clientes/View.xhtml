@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="ClientesViewPage" lazy="true">
+        <pm:header title="#{myBundle.ViewClientesTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:ClientesListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="ClientesViewForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{clientesController.selected != null}">
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewClientesLabel_idCliente}"/>
+                            <h:outputText value="#{clientesController.selected.idCliente}" title="#{myBundle.ViewClientesTitle_idCliente}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewClientesLabel_nombreComercial}"/>
+                            <h:outputText value="#{clientesController.selected.nombreComercial}" title="#{myBundle.ViewClientesTitle_nombreComercial}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewClientesLabel_rncCedula}"/>
+                            <h:outputText value="#{clientesController.selected.rncCedula}" title="#{myBundle.ViewClientesTitle_rncCedula}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewClientesLabel_cuentaContable}"/>
+                            <h:outputText value="#{clientesController.selected.cuentaContable}" title="#{myBundle.ViewClientesTitle_cuentaContable}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewClientesLabel_activo}"/>
+                            <h:selectBooleanCheckbox id="activo" value="#{clientesController.selected.activo}" title="#{myBundle.EditClientesTitle_activo}" required="true" requiredMessage="#{myBundle.EditClientesRequiredMessage_activo}" disabled="true"/>
+                        </pm:field>
+                    </p:outputPanel>
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

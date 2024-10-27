@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="UsuariosViewPage" lazy="true">
+        <pm:header title="#{myBundle.ViewUsuariosTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:UsuariosListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="UsuariosViewForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{usuariosController.selected != null}">
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewUsuariosLabel_idUsuario}"/>
+                            <h:outputText value="#{usuariosController.selected.idUsuario}" title="#{myBundle.ViewUsuariosTitle_idUsuario}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewUsuariosLabel_nombreUsuario}"/>
+                            <h:outputText value="#{usuariosController.selected.nombreUsuario}" title="#{myBundle.ViewUsuariosTitle_nombreUsuario}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewUsuariosLabel_contraseña}"/>
+                            <h:outputText value="#{usuariosController.selected.contraseña}" title="#{myBundle.ViewUsuariosTitle_contraseña}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewUsuariosLabel_rol}"/>
+                            <h:outputText value="#{usuariosController.selected.rol}" title="#{myBundle.ViewUsuariosTitle_rol}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewUsuariosLabel_activo}"/>
+                            <h:selectBooleanCheckbox id="activo" value="#{usuariosController.selected.activo}" title="#{myBundle.EditUsuariosTitle_activo}" required="true" requiredMessage="#{myBundle.EditUsuariosRequiredMessage_activo}" disabled="true"/>
+                        </pm:field>
+                    </p:outputPanel>
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="VendedoresEditDlg" widgetVar="VendedoresEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditVendedoresTitle}" closeOnEscape="true">
+
+            <h:form id="VendedoresEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{vendedoresController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditVendedoresLabel_idVendedor}" for="idVendedor" />
+                        <h:outputText id="idVendedor" value="#{vendedoresController.selected.idVendedor}" />
+
+                        <p:outputLabel value="#{myBundle.EditVendedoresLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{vendedoresController.selected.nombre}" title="#{myBundle.EditVendedoresTitle_nombre}" required="true" requiredMessage="#{myBundle.EditVendedoresRequiredMessage_nombre}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.EditVendedoresLabel_porcientoComision}" for="porcientoComision" />
+                        <p:inputText id="porcientoComision" value="#{vendedoresController.selected.porcientoComision}" title="#{myBundle.EditVendedoresTitle_porcientoComision}" required="true" requiredMessage="#{myBundle.EditVendedoresRequiredMessage_porcientoComision}"/>
+
+                        <p:outputLabel value="#{myBundle.EditVendedoresLabel_activo}" for="activo" />
+                        <p:selectBooleanCheckbox id="activo" value="#{vendedoresController.selected.activo}" required="true" requiredMessage="#{myBundle.EditVendedoresRequiredMessage_activo}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{vendedoresController.save}" value="#{myBundle.Save}" update="display,:VendedoresListForm:datalist,:VendedoresListForm:VendedoresDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('VendedoresEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('VendedoresEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
